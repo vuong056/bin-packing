@@ -1,0 +1,18 @@
+html, body{
+	height: 100%;
+	width: 100%;
+}
+canvas[resize]{
+	background: #00A8E1;
+	height:  100%;
+	width:  100%;
+}
+button{
+	position:  fixed;
+	bottom:  5px;
+	right:  5px;
+	font-size:  1.2em;
+	font-family: Helvetica, Arial, sans-serif;
+	color:  #333;
+	background:  white;
+}
