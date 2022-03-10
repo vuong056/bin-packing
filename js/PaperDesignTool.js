@@ -22,7 +22,9 @@
       return this.toolEvents();
     };
 
-    PaperDesignTool.prototype.toolEvents = function() {};
+    PaperDesignTool.prototype.toolEvents = function() {
+      $("button#download-svg").click(function(){ window.tool.save_svg() })
+    };
 
     PaperDesignTool.prototype.save_svg = function() {
       var bg, exp, g, prev, prior;

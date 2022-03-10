@@ -1,0 +1,92 @@
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js
+"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/ruler.js"></script>
+<script src="js/canvas-toBlob.js"></script>
+<script src="js/clipper.js"></script>
+<script src="js/file_saver.min.js"></script>
+<script src="js/paper-full.js"></script>
+<script src="js/paper-extra.js"></script>
+<script src="js/PaperDesignTool.js"></script>
+
+<script type="text/javascript">
+  
+    /* Main function */
+    $(function(){
+      window.tool = new PaperDesignTool({canvas: $('canvas')})
+      star = new paper.Path.Star({
+        name: "star",
+        points: 12,
+        radius1: 50,
+        radius2: 70,
+        fillColor: "yellow",
+        position: paper.view.center, 
+        onMouseDown: function(event){
+          this.selected = ! this.selected;
+        }
+      })
+
+      makeButtons()
+      
+    })
+    function getSelected(){
+      selectedItems = paper.project.getItems({
+        selected: true, 
+        className: "Path"
+      })
+      return selectedItems
+    }
+    function makeButtons(){
+      buttonGroup = new paper.Group({
+        name: "button-group"
+      })
+
+      darkerButton = makeButton("DARKER")
+      lighterButton = makeButton("LIGHTER")
+      lighterButton.position = darkerButton.bounds.rightCenter
+      buttonGroup.addChildren([darkerButton, lighterButton])
+      buttonGroup.pivot = buttonGroup.bounds.topLeft
+      buttonGroup.position = paper.view.bounds.topLeft
+    }
+    function makeButton(label, parent){
+      button = new paper.Group({
+        name: "button", 
+        onMouseDown: function(event){
+          this.selected = ! this.selected;
+        }
+      })
+      bg_padding = new paper.Path.Circle({
+        parent: button,
+        name: "bg",
+        radius: 60,
+        position: paper.view.center
+      })
+      bg = new paper.Path.Circle({
+        parent: button,
+        name: "bg",
+        radius: 50,
+        fillColor: "black",
+        position: paper.view.center
+      })
+      txt = new paper.PointText({
+        parent: button,
+        name: "label",
+        point: paper.view.center,
+        content: label,
+        fillColor: 'white',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        fontSize: 15
+      })
+      txt.position = paper.view.center
+      // txt.fitBounds(bg.bounds.expand(-20))
+      button.pivot = button.bounds.leftCenter
+      return button
+    }
+
+
+    
+</script>
+<link href="css/application.css" rel="stylesheet"/>
+<canvas resize> Hello </canvas>
+<button id="download-svg"> SVG </button>
