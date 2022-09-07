@@ -17,13 +17,13 @@
 	$(function(){
 		window.tool = new PaperDesignTool({canvas: $('canvas')})
 		$("button#compute-performance").click(computePerformance)
-		
+		paper.view.update()
 		// 
 		
 		binPackingSetup();
 		S = [rG(300, 30), rG(300, 30), rG(150, 150), rG(130, 150), rG(150, 130)]
 		binPackingProcedure(S);
-		paper.view.update()
+		// computePerformance();
 	})
 
 	function rG(w, l){
@@ -57,7 +57,7 @@
 		paper.project.activeLayer.insertChild(s)
 		s.position = stock.bounds.center
 
-		
+
 		
 		
 	}
