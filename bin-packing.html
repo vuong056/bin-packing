@@ -1,0 +1,83 @@
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js
+"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/ruler.js"></script>
+<script src="js/canvas-toBlob.js"></script>
+<script src="js/clipper.js"></script>
+<script src="js/file_saver.min.js"></script>
+<script src="js/paper-full.js"></script>
+<script src="js/paper-extra.js"></script>
+<script src="js/PaperDesignTool.js"></script>
+
+
+<script type="text/javascript">
+	
+
+	/* Main function */
+	$(function(){
+		window.tool = new PaperDesignTool({canvas: $('canvas')})
+		$("button#compute-performance").click(computePerformance)
+		
+		// 
+		
+		binPackingSetup();
+		S = [rG(300, 30), rG(300, 30), rG(150, 150), rG(130, 150), rG(150, 130)]
+		binPackingProcedure(S);
+		paper.view.update()
+	})
+
+	function rG(w, l){
+		r = new paper.Path.Rectangle({
+			name: 's',
+			size: new paper.Size(w, l),
+			position: paper.view.center, 
+			fillColor: 'white',
+			strokeColor: 'black',
+			strokeWidth: 1
+		})
+		
+		return r;
+	}
+
+	function binPackingSetup(){
+		stockMaterial = new paper.Path.Rectangle({
+			name: "stockmaterial",
+			size: new paper.Size(500, 500),
+			position: paper.view.center, 
+			fillColor: 'orange',
+			strokeColor: 'black',
+			strokeWidth: 2
+		})
+		stockMaterial.pivot = stockMaterial.strokeBounds.topLeft
+		stockMaterial.position = paper.view.bounds.topLeft
+	}
+	function binPackingProcedure(S){
+		stock = paper.project.getItem({name: 'stockmaterial'})
+		s = S[0];
+		paper.project.activeLayer.insertChild(s)
+		s.position = stock.bounds.center
+
+		
+		
+		
+	}
+	function computePerformance(){
+		g = new paper.Group({
+			children: paper.project.getItems({name: 's'})
+		})
+		stock = paper.project.getItem({name: 'stockmaterial'})
+		materialleft = stock.bounds.area - g.bounds.area
+		materialused = g.bounds.area
+		totalmaterial = stock.bounds.area
+
+		console.log("Total Area Used:", materialused)
+		console.log("Stock Material Left", materialleft)
+		console.log("% Left", materialleft/totalmaterial)
+	}
+
+
+</script>
+
+<link href="css/application.css" rel="stylesheet"/>
+<canvas resize> Hello </canvas>
+<button id="compute-performance"> Performance </button>
